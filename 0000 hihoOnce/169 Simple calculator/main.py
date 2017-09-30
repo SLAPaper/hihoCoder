@@ -1,6 +1,6 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-import re, math
+import re
 
 
 def add(a, b):
@@ -41,6 +41,19 @@ def process(op, num_stack=num_stack, op_func=op_func):  # go with one operator
     num_stack.append(op_func[op](num1, num2))
 
 
+def process_token(token, op_stack=op_stack):
+    if not op_stack:
+        op_stack.append(token)
+    else:
+        op = op_stack.pop()
+        if op == '(' or op_prior[token] > op_prior[op]:
+            op_stack.append(op)
+            op_stack.append(token)
+        else:
+            process(op)
+            process_token(token)
+
+
 for token in tokens:
     try:
         number = int(token)
@@ -54,20 +67,10 @@ for token in tokens:
                 process(op)
                 op = op_stack.pop()
         else:  # normal +, -, * and /
-            if len(op_stack) > 0:
-                op = op_stack.pop()
-                if op == '(':  # don't touch left param
-                    op_stack.append(op)
-                else:
-                    if op_prior[token] > op_prior[op]:
-                        op_stack.append(op)
-                    else:
-                        process(op)
+            process_token(token)
 
-            op_stack.append(token)
-
-while len(op_stack) > 0:
+while op_stack:
     op = op_stack.pop()
     process(op)
 
-print(num_stack[0])
+print(num_stack[-1])
