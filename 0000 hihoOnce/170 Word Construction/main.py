@@ -32,9 +32,10 @@ def search(iidx, layer, words=words):
 
             new_iidx = {}
             for lt, ws_i in iidx.iteritems():
-                new_ws_i = [wi for wi in ws_i if wi not in conflict]
-                if new_ws_i:
-                    new_iidx[lt] = new_ws_i
+                if lt not in words[word_i]:
+                    new_ws_i = [wi for wi in ws_i if wi not in conflict]
+                    if new_ws_i:
+                        new_iidx[lt] = new_ws_i
 
             search(new_iidx, layer + 1)
 
