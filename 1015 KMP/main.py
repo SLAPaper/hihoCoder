@@ -8,17 +8,12 @@ def _get_next(pattern):
     j = -1
     m = len(pattern)
     while i < m - 1:
-        if pattern[i] == pattern[j]:
+        if j == -1 or pattern[i] == pattern[j]:
             i += 1
             j += 1
             next_.append(j)
         else:
             j = next_[j]
-
-        if j == -1:
-            i += 1
-            j += 1
-            next_.append(j)
 
     return next_
 
