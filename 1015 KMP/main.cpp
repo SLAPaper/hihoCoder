@@ -7,18 +7,17 @@ using namespace std;
 vector<int> getNext(string p)
 {
     vector<int> next = vector<int>(p.length());
-    next.push_back(-1);
+    next[0] = -1;
 
     int i = 0;
     int j = -1;
+    int m = p.length();
 
-    while (i < p.length() - 1)
+    while (i < m - 1)
     {
         if (j == -1 || p[i] == p[j])
         {
-            ++i;
-            ++j;
-            next.push_back(j);
+            next[++i] = ++j;
         }
         else
         {
@@ -31,28 +30,39 @@ vector<int> getNext(string p)
 
 int kmp_count(string o, string p)
 {
+    int n = o.length();
+    int m = p.length();
+
     int i = 0;
     int j = 0;
     int count = 0;
 
     vector<int> next = getNext(p);
 
-    while (i < o.length())
+    while (i < n)
     {
-        if (j == -1 || o[i] == p[j])
+        if (o[i] == p[j])
         {
-            ++i;
-            ++j;
+            if (j == m - 1)
+            {
+                count += 1;
+                j = next[j];
+            }
+            else
+            {
+                ++i;
+                ++j;
+            }
         }
         else
         {
             j = next[j];
         }
 
-        if (j == p.length())
+        if (j == -1)
         {
-            count += 1;
-            j = next[j - 1] + 1;
+            ++i;
+            j = 0;
         }
     }
 
