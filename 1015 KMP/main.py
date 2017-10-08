@@ -30,19 +30,18 @@ def kmp_count(original, pattern):
     next_ = _get_next(pattern)
     while i < n:
         if original[i] == pattern[j]:
-            i += 1
-            j += 1
+            if j == m - 1:
+                count += 1
+                j = next_[j]
+            else:
+                i += 1
+                j += 1
         else:
             j = next_[j]
 
         if j == -1:
             i += 1
             j = 0
-        elif j == m:
-            count += 1
-            i -= 1
-            j -= 1
-            j = next_[j]
 
     return count
 
