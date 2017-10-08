@@ -4,10 +4,10 @@
 
 using namespace std;
 
-vector<int> getNext(string p, bool ao)
+vector<int> getNext(string p)
 {
     vector<int> next = vector<int>(p.length());
-    next[0] = -1;
+    next.push_back(-1);
 
     int i = 0;
     int j = -1;
@@ -18,14 +18,7 @@ vector<int> getNext(string p, bool ao)
         {
             ++i;
             ++j;
-            if (!ao && p[i] == p[j])
-            {
-                next.push_back(next[j]);
-            }
-            else
-            {
-                next.push_back(j);
-            }
+            next.push_back(j);
         }
         else
         {
@@ -36,15 +29,15 @@ vector<int> getNext(string p, bool ao)
     return next;
 }
 
-int kmp_count(string o, string p, bool ao)
+int kmp_count(string o, string p)
 {
     int i = 0;
     int j = 0;
     int count = 0;
 
-    vector<int> next = getNext(p, ao);
+    vector<int> next = getNext(p);
 
-    while (i < o.length() && j < p.length())
+    while (i < o.length())
     {
         if (j == -1 || o[i] == p[j])
         {
@@ -75,7 +68,7 @@ int main()
     {
         string p, o;
         cin >> p >> o;
-        cout << kmp_count(o, p, true) << endl;
+        cout << kmp_count(o, p) << endl;
     }
 
     return 0;

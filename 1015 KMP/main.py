@@ -1,43 +1,53 @@
 from __future__ import print_function
 
 
-def _get_next(pattern, allow_overflapping=False):
+def _get_next(pattern):
     # type (str) -> List[int]
     next_ = [-1]
     i = 0
     j = -1
-    while i < len(pattern) - 1:
-        if j == -1 or pattern[i] == pattern[j]:
+    m = len(pattern)
+    while i < m - 1:
+        if pattern[i] == pattern[j]:
             i += 1
             j += 1
-            if not allow_overflapping and pattern[i] == pattern[j]:
-                # skip ahead
-                next_.append(next_[j])
-            else:
-                next_.append(j)
+            next_.append(j)
         else:
             j = next_[j]
+
+        if j == -1:
+            i += 1
+            j += 1
+            next_.append(j)
 
     return next_
 
 
-def kmp_count(original, pattern, allow_overflapping=True):
+def kmp_count(original, pattern):
     # type: (str, str) -> int
+
+    n = len(original)
+    m = len(pattern)
 
     i = 0
     j = 0
     count = 0
-    next_ = _get_next(pattern, allow_overflapping)
-    while i < len(original) and j < len(pattern):
-        if j == -1 or original[i] == pattern[j]:
+    next_ = _get_next(pattern)
+    while i < n:
+        if original[i] == pattern[j]:
             i += 1
             j += 1
         else:
             j = next_[j]
 
-        if j == len(pattern):
+        if j == -1:
+            i += 1
+            j = 0
+        elif j == m:
             count += 1
-            j = next_[j - 1] + 1
+            i -= 1
+            j -= 1
+            j = next_[j]
 
     return count
 
