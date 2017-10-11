@@ -2,17 +2,13 @@ from __future__ import print_function
 from collections import defaultdict, deque
 
 # load data
-N, line = raw_input().split(None, 1)
-N = int(N)
+N = int(raw_input())
 
 email_users = defaultdict(lambda: [])
 user_emails = {}
 user_id = {}
 for i in range(N):
-    if i:
-        line = raw_input()
-    else:
-        pass
+    line = raw_input()
     user, n_email, emails = line.split(None, 2)
     n_email = int(n_email)
     emails = emails.split()
