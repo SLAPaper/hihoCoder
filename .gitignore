@@ -3,3 +3,5 @@ draft
 test
 *.pyc
 *.o
+.ipynb_checkpoints
+*~
