@@ -1,13 +1,11 @@
 from __future__ import print_function
 
-from array import array
-
 BASE = int(1e9 + 7)
 
 
 class TreeMatrix:
     def __init__(self, N):
-        self.mat = [array('i', [0] * (N + 1)) for _ in range(N + 1)]
+        self.mat = [[0 for _ in range(N + 1)] for _ in range(N + 1)]
         self.N = N
 
     @staticmethod
@@ -38,8 +36,8 @@ class TreeMatrix:
         return ret
 
     def sum(self, x1, y1, x2, y2):
-        return (self._sum(x2, y2) - self._sum(x1 - 1, y2) - self._sum(
-            x2, y1 - 1) + self._sum(x1 - 1, y1 - 1)) % BASE
+        return (self._sum(x2, y2) - self._sum(x1 - 1, y2) -
+                self._sum(x2, y1 - 1) + self._sum(x1 - 1, y1 - 1)) % BASE
 
 
 if __name__ == '__main__':
