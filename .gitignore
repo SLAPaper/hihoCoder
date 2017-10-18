@@ -1,6 +1,6 @@
 .vscode
 draft
-test
+test*
 *.pyc
 *.o
 .ipynb_checkpoints
