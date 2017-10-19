@@ -1,11 +1,13 @@
 from __future__ import print_function
 
+from array import array
+
 BASE = int(1e9 + 7)
 
 
 class TreeMatrix:
     def __init__(self, N):
-        self.mat = [[0 for _ in range(N + 1)] for _ in range(N + 1)]
+        self.mat = array('l', [0] * (N + 1) * (N + 1))
         self.N = N
 
     @staticmethod
@@ -19,7 +21,7 @@ class TreeMatrix:
         while i <= self.N:
             j = y
             while j <= self.N:
-                self.mat[i][j] = (self.mat[i][j] + val) % BASE
+                self.mat[i * (self.N + 1) + j] += val
                 j += self.lowbit(j)
             i += self.lowbit(i)
 
@@ -30,7 +32,7 @@ class TreeMatrix:
         while i > 0:
             j = y
             while j > 0:
-                ret = (ret + self.mat[i][j]) % BASE
+                ret += self.mat[i * (self.N + 1) + j]
                 j -= self.lowbit(j)
             i -= self.lowbit(i)
         return ret
