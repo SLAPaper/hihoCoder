@@ -1,11 +1,13 @@
 from __future__ import print_function
 
+from ctypes import c_int
+
 BASE = int(1e9 + 7)
 
 
 class TreeMatrix:
     def __init__(self, N):
-        self.mat = [0] * (N + 1) * (N + 1)
+        self.mat = (c_int * ((N + 1) * (N + 1)))()
         self.N = N
 
     @staticmethod
