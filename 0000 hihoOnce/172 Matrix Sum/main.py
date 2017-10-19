@@ -1,13 +1,11 @@
 from __future__ import print_function
 
-from array import array
-
 BASE = int(1e9 + 7)
 
 
 class TreeMatrix:
     def __init__(self, N):
-        self.mat = array('l', [0] * (N + 1) * (N + 1))
+        self.mat = [0] * (N + 1) * (N + 1)
         self.N = N
 
     @staticmethod
