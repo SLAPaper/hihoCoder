@@ -1,19 +1,38 @@
 from __future__ import print_function, division
 from fractions import Fraction
-
 import sys
 
 
+def cache(func):
+    memory = {}
+
+    def wrapper(n, m):
+        if (n, m) in memory:
+            return memory[(n, m)]
+        else:
+            result = func(n, m)
+            memory[(n, m)] = result
+            return result
+
+    return wrapper
+
+
+@cache
 def calc(n, m):
-    s = [Fraction()] * (m + 1)
-    s[1:6] = [Fraction(1, 6)] * 6
-    for i in range(1, n):
-        ns = s[:]
-        for j in range(1, m + 1):
-            ns[j] = ((s[j - 1] if j - 1 > 0 else Fraction()) -
-                     (s[j - 7] if j - 7 > 0 else Fraction())) / 6 + ns[j - 1]
-        s = ns
-    return s[m]
+    if m <= 0:
+        return Fraction()
+
+    if n == 1:
+        if m in set([1, 2, 3, 4, 5, 6]):
+            return Fraction(1, 6)
+        else:
+            return Fraction()
+
+    n1m1 = calc(n - 1, m - 1)
+    nm1 = calc(n, m - 1)
+    n1m7 = calc(n - 1, m - 7)
+
+    return (n1m1 - n1m7) / 6 + nm1
 
 
 def main():
